@@ -2,8 +2,8 @@ package org.ecommerce.productservice.application.services;
 
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.application.repositories.ProductRepository;
-import org.ecommerce.productservice.domain.entities.Product;
-import org.ecommerce.productservice.domain.events.ProductCreated;
+import org.ecommerce.productservice.domain.entities.products.Product;
+import org.ecommerce.productservice.domain.events.products.ProductCreated;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

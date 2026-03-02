@@ -1,6 +1,6 @@
 package org.ecommerce.productservice.application.repositories;
 
-import org.ecommerce.productservice.domain.entities.Category;
+import org.ecommerce.productservice.domain.entities.products.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {

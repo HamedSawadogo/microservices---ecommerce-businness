@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.domain.entities;
+package org.ecommerce.productservice.domain.entities.products;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

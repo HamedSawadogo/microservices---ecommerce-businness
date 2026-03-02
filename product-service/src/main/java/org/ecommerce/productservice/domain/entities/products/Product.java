@@ -1,8 +1,8 @@
-package org.ecommerce.productservice.domain.entities;
+package org.ecommerce.productservice.domain.entities.products;
 
 import jakarta.persistence.*;
 import lombok.*;
-
+import org.ecommerce.productservice.domain.enums.ProductStatus;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -21,14 +21,16 @@ public class Product {
     private BigDecimal price;
     private String description;
     private LocalDate createdAt;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
 
     public Product(String name, BigDecimal price, String description) {
         this.name = name;
         this.price = price;
         this.description = description;
         this.createdAt = LocalDate.now();
-        this.status = "CREATED";
+        this.status = ProductStatus.DRAFT;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

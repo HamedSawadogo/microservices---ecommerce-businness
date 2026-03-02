@@ -1,18 +1,15 @@
 package org.ecommerce.productservice.application.repositories;
 
-import jakarta.persistence.QueryHint;
-import org.ecommerce.productservice.domain.entities.Product;
+import org.ecommerce.productservice.domain.entities.products.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
-import static org.hibernate.jpa.HibernateHints.HINT_CACHEABLE;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select p.id from Product p")

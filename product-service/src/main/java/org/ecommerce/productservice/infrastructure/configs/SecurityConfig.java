@@ -1,72 +1,70 @@
 package org.ecommerce.productservice.infrastructure.configs;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpRequest;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.Customizer;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.stereotype.Component;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 @Configuration
 @EnableMethodSecurity
-@RequiredArgsConstructor
 public class SecurityConfig {
-    private final CustomAuthorizationFilter customAuthorizationFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain (HttpSecurity httpSecurity) {
-        return httpSecurity.authorizeHttpRequests(req -> {
-           // req.requestMatchers("/api/v1/products").hasAnyRole("USER", "ADMIN");
-            req.anyRequest().permitAll();
-        }).csrf(AbstractHttpConfigurer::disable)
-               // .oauth2ResourceServer(o -> o.jwt(Customizer.withDefaults()))
-                .formLogin(Customizer.withDefaults())
-                .cors(Customizer.withDefaults())
-             //   .oauth2ResourceServer(o -> o.jwt())
-        .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-             //   .addFilterBefore(customAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-        .build();
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   Converter<Jwt, AbstractAuthenticationToken> jwtAuthConverter) throws Exception {
+
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/public/**").permitAll()
+                        .requestMatchers("/api/v1/products").hasRole("ecom-admin")
+                        .anyRequest().authenticated()
+                )
+
+                .oauth2ResourceServer(oauth2 ->
+                        oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter))
+                );
+
+        return http.build();
     }
 
+    @Bean
+    public Converter<Jwt, AbstractAuthenticationToken> jwtAuthConverter() {
+        return new KeycloakJwtConverter();
+    }
 
-    @Component
-    public static class  CustomAuthorizationFilter extends OncePerRequestFilter {
+    static class KeycloakJwtConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
         @Override
-        protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-            var authContent = request.getHeader("Authorization");
-            if (authContent != null  && authContent.startsWith("Bearer ")) {
-               var token = authContent.substring(7);
-               if (token.isBlank() || !token.equals("Hamed")) {
-                   response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "invalid acess");
-                   return;
-               }
-               Authentication authentication = new UsernamePasswordAuthenticationToken("hamed", "13193477",
-                      List.of(
-//                              new SimpleGrantedAuthority("ROLE_USER"),
-//                              new SimpleGrantedAuthority("ROLE_ADMIN")
-                      ));
-               SecurityContextHolder.getContext().setAuthentication(authentication);
+        public AbstractAuthenticationToken convert(Jwt jwt) {
+
+            Collection<GrantedAuthority> authorities = new ArrayList<>();
+
+            Map<String, Object> realmAccess = jwt.getClaim("realm_access");
+
+            if (realmAccess != null && realmAccess.containsKey("roles")) {
+                Collection<String> roles = (Collection<String>) realmAccess.get("roles");
+
+                roles.forEach(role ->
+                        authorities.add(new SimpleGrantedAuthority("ROLE_" + role))
+                );
             }
-            filterChain.doFilter(request, response);
+
+            return new JwtAuthenticationToken(jwt, authorities);
         }
     }
 }
