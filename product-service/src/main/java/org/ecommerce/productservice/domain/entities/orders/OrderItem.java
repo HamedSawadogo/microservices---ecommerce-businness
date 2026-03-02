@@ -8,9 +8,7 @@ import org.ecommerce.productservice.domain.entities.products.Product;
 @NoArgsConstructor @AllArgsConstructor
 @Getter @Setter
 public class OrderItem {
-    @Id @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

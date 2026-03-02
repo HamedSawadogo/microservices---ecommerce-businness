@@ -5,6 +5,7 @@ import lombok.*;
 import org.ecommerce.productservice.domain.enums.OrderStatus;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -31,5 +32,12 @@ public class Order {
         order.setItems(items);
         order.setCreatedAt(LocalDateTime.now());
         return order;
+    }
+
+    public void addItem(OrderItem item) {
+        if (item == null) {
+            return;
+        }
+        this.items.add(item);
     }
 }

@@ -2,6 +2,7 @@ package org.ecommerce.productservice.domain.entities.products;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.ecommerce.productservice.application.BussinessException;
 import org.ecommerce.productservice.domain.enums.ProductStatus;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -16,9 +17,9 @@ import java.util.Set;
 public class Product {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private BigDecimal price;
+    private Integer availableQuantity;
     private String description;
     private LocalDate createdAt;
 
@@ -31,6 +32,17 @@ public class Product {
         this.description = description;
         this.createdAt = LocalDate.now();
         this.status = ProductStatus.DRAFT;
+    }
+
+    public void decreaseQuantity(Integer quantity) {
+        if (quantity > this.availableQuantity) {
+            throw new BussinessException("Product has not sufficcent stock");
+        }
+        this.availableQuantity -= quantity;
+    }
+
+    public boolean isAvailableStock() {
+        return this.availableQuantity > 0;
     }
 
     @ManyToOne(fetch = FetchType.LAZY)

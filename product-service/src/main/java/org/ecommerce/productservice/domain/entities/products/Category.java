@@ -21,8 +21,8 @@ public class Category {
     private String description;
 
     //TODO to fix that code
-    @OneToMany(mappedBy = "category")
     @JsonIgnore
+    @OneToMany(mappedBy = "category")
     private List<Product> products = new ArrayList<>();
 
     @Override
