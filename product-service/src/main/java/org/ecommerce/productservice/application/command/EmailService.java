@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.application.services;
+package org.ecommerce.productservice.application.command;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

@@ -1,10 +1,9 @@
-package org.ecommerce.productservice.application.services;
+package org.ecommerce.productservice.application.command;
 
 import lombok.RequiredArgsConstructor;
-import org.ecommerce.productservice.application.repositories.ProductRepository;
+import org.ecommerce.productservice.domain.repositories.ProductRepository;
 import org.ecommerce.productservice.domain.entities.products.Product;
 import org.ecommerce.productservice.domain.events.products.ProductCreated;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,6 @@ public class ProductService {
   private final ApplicationEventPublisher applicationEventPublisher;
 
   @Transactional(rollbackFor = IllegalArgumentException.class)
-  @Cacheable(cacheNames = "products")
   public Product create(Product product) {
       Product created  = new Product(product.getName(), product.getPrice(), product.getDescription());
       applicationEventPublisher.publishEvent(new ProductCreated(this, created));

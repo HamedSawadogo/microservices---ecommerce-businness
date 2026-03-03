@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.application;
+package org.ecommerce.productservice.domain.exceptions;
 
 public class BussinessException extends RuntimeException {
 

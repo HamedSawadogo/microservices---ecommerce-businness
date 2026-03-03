@@ -1,11 +1,11 @@
 package org.ecommerce.productservice.domain.entities.orders;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.ecommerce.productservice.domain.enums.OrderStatus;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -22,6 +22,7 @@ public class Order {
     private LocalDateTime createdAt;
     private Long createdByUserId;
 
+    @JsonIgnoreProperties(value = {"order"}, allowSetters = true)
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<OrderItem> items;
 

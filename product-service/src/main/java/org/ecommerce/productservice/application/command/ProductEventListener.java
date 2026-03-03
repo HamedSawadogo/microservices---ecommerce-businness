@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.application.services;
+package org.ecommerce.productservice.application.command;
 
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.domain.events.products.ProductCreated;

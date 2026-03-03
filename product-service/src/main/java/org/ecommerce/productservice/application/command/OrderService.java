@@ -1,12 +1,11 @@
-package org.ecommerce.productservice.application.services;
+package org.ecommerce.productservice.application.command;
 
 import lombok.RequiredArgsConstructor;
-import org.ecommerce.productservice.application.BussinessException;
-import org.ecommerce.productservice.application.dtos.CreateOderRequest;
-import org.ecommerce.productservice.application.dtos.CreateOrderItemRequest;
-import org.ecommerce.productservice.application.dtos.GetOrderResponse;
-import org.ecommerce.productservice.application.repositories.OrderRepository;
-import org.ecommerce.productservice.application.repositories.ProductRepository;
+import org.ecommerce.productservice.domain.exceptions.BussinessException;
+import org.ecommerce.productservice.application.command.dtos.in.CreateOrderItemRequest;
+import org.ecommerce.productservice.application.command.dtos.out.GetOrderResponse;
+import org.ecommerce.productservice.domain.repositories.OrderRepository;
+import org.ecommerce.productservice.domain.repositories.ProductRepository;
 import org.ecommerce.productservice.domain.entities.orders.Order;
 import org.ecommerce.productservice.domain.entities.orders.OrderItem;
 import org.ecommerce.productservice.domain.entities.products.Product;
@@ -28,15 +27,20 @@ public class OrderService {
           throw new BussinessException("Product stock is out");
       }
       List<Order> orders = orderRepository.findByCreatedByUserIdInPending(userId);
-      if (orders.isEmpty())  {
+      if (orders.isEmpty()) {
           Order order = Order.create(String.valueOf(userId), List.of(new OrderItem(product, request.quantity())));
           product.decreaseQuantity(request.quantity());
-          orderRepository.save(order);
-          return null;
+          Order saved = orderRepository.save(order);
+          return orderRepository.findByProjectionId(saved.getId()).orElseThrow();
       }
       var currentOderInPendingForPayment = orders.get(0);
       currentOderInPendingForPayment.addItem(new OrderItem(product, request.quantity()));
       product.decreaseQuantity(request.quantity());
-      return null;
+      return orderRepository.findByProjectionId(currentOderInPendingForPayment.getId()).orElseThrow();
+  }
+
+  @Transactional(readOnly = true)
+  public List<GetOrderResponse> getAll() {
+      return orderRepository.findAllByCreatedByUserId(1L);
   }
 }

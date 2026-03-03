@@ -1,7 +1,7 @@
 package org.ecommerce.productservice;
 
-import org.ecommerce.productservice.application.repositories.CategoryRepository;
-import org.ecommerce.productservice.application.repositories.ProductRepository;
+import org.ecommerce.productservice.domain.repositories.CategoryRepository;
+import org.ecommerce.productservice.domain.repositories.ProductRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

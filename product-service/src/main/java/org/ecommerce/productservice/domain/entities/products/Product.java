@@ -2,7 +2,7 @@ package org.ecommerce.productservice.domain.entities.products;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.ecommerce.productservice.application.BussinessException;
+import org.ecommerce.productservice.domain.exceptions.BussinessException;
 import org.ecommerce.productservice.domain.enums.ProductStatus;
 import java.math.BigDecimal;
 import java.time.LocalDate;
