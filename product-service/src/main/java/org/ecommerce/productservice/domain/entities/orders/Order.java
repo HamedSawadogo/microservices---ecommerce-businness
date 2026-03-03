@@ -22,7 +22,7 @@ public class Order {
     private LocalDateTime createdAt;
     private Long createdByUserId;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<OrderItem> items;
 
     public static Order create(String userId,  List<OrderItem> items) {
@@ -38,6 +38,7 @@ public class Order {
         if (item == null) {
             return;
         }
+        item.setOrder(this);
         this.items.add(item);
     }
 }

@@ -19,7 +19,7 @@ public class Product {
     private Long id;
     private String name;
     private BigDecimal price;
-    private Integer availableQuantity;
+    private Integer availableQuantity = 0;
     private String description;
     private LocalDate createdAt;
 

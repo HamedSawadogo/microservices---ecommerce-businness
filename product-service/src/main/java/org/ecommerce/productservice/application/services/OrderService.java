@@ -8,15 +8,15 @@ import org.ecommerce.productservice.application.dtos.GetOrderResponse;
 import org.ecommerce.productservice.application.repositories.OrderRepository;
 import org.ecommerce.productservice.application.repositories.ProductRepository;
 import org.ecommerce.productservice.domain.entities.orders.Order;
+import org.ecommerce.productservice.domain.entities.orders.OrderItem;
 import org.ecommerce.productservice.domain.entities.products.Product;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
-public class OderService {
+@RequiredArgsConstructor
+public class OrderService {
   private final OrderRepository orderRepository;
   private final ProductRepository productRepository;
 
@@ -29,13 +29,14 @@ public class OderService {
       }
       List<Order> orders = orderRepository.findByCreatedByUserIdInPending(userId);
       if (orders.isEmpty())  {
-          Order order = Order.create(request.userId(), List.of(request.item()));
+          Order order = Order.create(String.valueOf(userId), List.of(new OrderItem(product, request.quantity())));
           product.decreaseQuantity(request.quantity());
-          return orderRepository.save(order);
+          orderRepository.save(order);
+          return null;
       }
-      var currentOderInPendingForPayment = orders.getFirst();
-      currentOderInPendingForPayment.addItem(request.item());
+      var currentOderInPendingForPayment = orders.get(0);
+      currentOderInPendingForPayment.addItem(new OrderItem(product, request.quantity()));
       product.decreaseQuantity(request.quantity());
-      return orderRepository.save(currentOderInPendingForPayment);
+      return null;
   }
 }

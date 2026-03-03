@@ -31,8 +31,8 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/api/v1/products").hasRole("ecom-admin")
-                        .anyRequest().authenticated()
+                       // .requestMatchers("/api/v1/products").hasRole("ecom-admin")
+                        .anyRequest().permitAll()
                 )
 
                 .oauth2ResourceServer(oauth2 ->
