@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.application.command.dtos.out;
+package org.ecommerce.productservice.application.queries;
 
 
 public interface GetOrderItem {

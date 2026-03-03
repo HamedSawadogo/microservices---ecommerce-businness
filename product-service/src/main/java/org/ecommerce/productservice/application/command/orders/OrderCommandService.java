@@ -1,9 +1,8 @@
-package org.ecommerce.productservice.application.command;
+package org.ecommerce.productservice.application.command.orders;
 
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.domain.exceptions.BussinessException;
-import org.ecommerce.productservice.application.command.dtos.in.CreateOrderItemRequest;
-import org.ecommerce.productservice.application.command.dtos.out.GetOrderResponse;
+import org.ecommerce.productservice.application.queries.GetOrderResponse;
 import org.ecommerce.productservice.domain.repositories.OrderRepository;
 import org.ecommerce.productservice.domain.repositories.ProductRepository;
 import org.ecommerce.productservice.domain.entities.orders.Order;
@@ -15,7 +14,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class OrderService {
+public class OrderCommandService {
   private final OrderRepository orderRepository;
   private final ProductRepository productRepository;
 

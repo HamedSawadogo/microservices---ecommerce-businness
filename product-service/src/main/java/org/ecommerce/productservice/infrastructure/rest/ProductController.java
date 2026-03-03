@@ -2,7 +2,7 @@ package org.ecommerce.productservice.infrastructure.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.domain.repositories.ProductRepository;
-import org.ecommerce.productservice.application.command.ProductService;
+import org.ecommerce.productservice.application.command.products.ProductService;
 import org.ecommerce.productservice.domain.entities.products.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

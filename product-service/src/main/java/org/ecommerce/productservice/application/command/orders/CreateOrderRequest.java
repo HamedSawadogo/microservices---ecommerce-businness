@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.application.command.dtos.in;
+package org.ecommerce.productservice.application.command.orders;
 
 import java.util.List;
 

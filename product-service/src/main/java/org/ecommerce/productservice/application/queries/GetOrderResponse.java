@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.application.command.dtos.out;
+package org.ecommerce.productservice.application.queries;
 
 import org.ecommerce.productservice.domain.enums.OrderStatus;
 import java.util.List;

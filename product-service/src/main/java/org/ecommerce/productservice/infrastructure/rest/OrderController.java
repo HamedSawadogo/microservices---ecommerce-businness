@@ -1,8 +1,8 @@
 package org.ecommerce.productservice.infrastructure.rest;
 
 import lombok.RequiredArgsConstructor;
-import org.ecommerce.productservice.application.command.dtos.in.CreateOrderItemRequest;
-import org.ecommerce.productservice.application.command.OrderService;
+import org.ecommerce.productservice.application.command.orders.CreateOrderItemRequest;
+import org.ecommerce.productservice.application.command.orders.OrderService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;

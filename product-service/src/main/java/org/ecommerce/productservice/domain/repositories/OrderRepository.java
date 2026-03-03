@@ -1,7 +1,7 @@
 package org.ecommerce.productservice.domain.repositories;
 
 import jakarta.persistence.LockModeType;
-import org.ecommerce.productservice.application.command.dtos.out.GetOrderResponse;
+import org.ecommerce.productservice.application.queries.GetOrderResponse;
 import org.ecommerce.productservice.domain.entities.orders.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;

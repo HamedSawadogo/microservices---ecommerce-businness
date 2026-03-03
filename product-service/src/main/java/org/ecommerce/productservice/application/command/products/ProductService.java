@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.application.command;
+package org.ecommerce.productservice.application.command.products;
 
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.domain.repositories.ProductRepository;

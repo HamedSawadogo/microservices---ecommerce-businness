@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.application.command;
+package org.ecommerce.productservice.domain.ports;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
