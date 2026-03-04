@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.application.command.orders;
+package org.ecommerce.productservice.application.commands.orders;
 
 import java.util.List;
 

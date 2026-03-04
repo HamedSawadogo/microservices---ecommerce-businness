@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.application.command.orders;
+package org.ecommerce.productservice.application.commands.orders;
 
 public record CreateOrderItemRequest(Long productId, Integer quantity) {
 

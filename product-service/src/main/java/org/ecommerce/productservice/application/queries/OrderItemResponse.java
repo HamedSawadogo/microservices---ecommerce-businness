@@ -1,7 +1,6 @@
 package org.ecommerce.productservice.application.queries;
 
-
-public interface GetOrderItem {
+public interface OrderItemResponse {
     Long  getId();
     Integer getQuantity();
     GetProductPreview getProduct();

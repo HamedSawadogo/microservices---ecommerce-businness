@@ -1,8 +1,8 @@
-package org.ecommerce.productservice.application.command.orders;
+package org.ecommerce.productservice.application.commands.orders;
 
 import lombok.RequiredArgsConstructor;
+import org.ecommerce.productservice.application.queries.OrderResponse;
 import org.ecommerce.productservice.domain.exceptions.BussinessException;
-import org.ecommerce.productservice.application.queries.GetOrderResponse;
 import org.ecommerce.productservice.domain.repositories.OrderRepository;
 import org.ecommerce.productservice.domain.repositories.ProductRepository;
 import org.ecommerce.productservice.domain.entities.orders.Order;
@@ -19,7 +19,7 @@ public class OrderCommandService {
   private final ProductRepository productRepository;
 
   @Transactional
-  public ResourceCreatedId  addOrderItem(CreateOrderItemRequest request) {
+  public ResourceCreatedId addOrderItem(CreateOrderItemRequest request) {
       Long userId = 1L;
       Product product = productRepository.findOneForUpdate(request.productId()).orElseThrow();
       if (!product.isAvailableStock() || request.quantity() > product.getAvailableQuantity()) {
@@ -39,7 +39,7 @@ public class OrderCommandService {
   }
 
   @Transactional(readOnly = true)
-  public List<GetOrderResponse> getAll() {
+  public List<OrderResponse> getAll() {
       return orderRepository.findAllByCreatedByUserId(1L);
   }
 }
