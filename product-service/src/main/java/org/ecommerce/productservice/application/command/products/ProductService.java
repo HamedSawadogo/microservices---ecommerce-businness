@@ -3,7 +3,7 @@ package org.ecommerce.productservice.application.command.products;
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.domain.repositories.ProductRepository;
 import org.ecommerce.productservice.domain.entities.products.Product;
-import org.ecommerce.productservice.domain.events.products.ProductCreated;
+import org.ecommerce.productservice.domain.events.ProductCreated;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

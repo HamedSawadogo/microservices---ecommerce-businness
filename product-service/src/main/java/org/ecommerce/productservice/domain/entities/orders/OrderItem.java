@@ -11,10 +11,8 @@ import org.ecommerce.productservice.domain.entities.products.Product;
 public class OrderItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
-
     private Integer quantity;
 
     @ManyToOne(fetch = FetchType.LAZY)

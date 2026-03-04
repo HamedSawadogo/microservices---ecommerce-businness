@@ -19,8 +19,8 @@ public class OrderCommandService {
   private final ProductRepository productRepository;
 
   @Transactional
-  public GetOrderResponse addOrderItem(CreateOrderItemRequest request) {
-      Long userId = 1L;//TODO  should be changed
+  public ResourceCreatedId  addOrderItem(CreateOrderItemRequest request) {
+      Long userId = 1L;
       Product product = productRepository.findOneForUpdate(request.productId()).orElseThrow();
       if (!product.isAvailableStock() || request.quantity() > product.getAvailableQuantity()) {
           throw new BussinessException("Product stock is out");
@@ -30,12 +30,12 @@ public class OrderCommandService {
           Order order = Order.create(String.valueOf(userId), List.of(new OrderItem(product, request.quantity())));
           product.decreaseQuantity(request.quantity());
           Order saved = orderRepository.save(order);
-          return orderRepository.findByProjectionId(saved.getId()).orElseThrow();
+          return new ResourceCreatedId(saved.getId());
       }
       var currentOderInPendingForPayment = orders.get(0);
       currentOderInPendingForPayment.addItem(new OrderItem(product, request.quantity()));
       product.decreaseQuantity(request.quantity());
-      return orderRepository.findByProjectionId(currentOderInPendingForPayment.getId()).orElseThrow();
+      return new ResourceCreatedId(currentOderInPendingForPayment.getId());
   }
 
   @Transactional(readOnly = true)

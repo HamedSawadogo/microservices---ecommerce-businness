@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.domain.events.products;
+package org.ecommerce.productservice.domain.events;
 
 import lombok.Getter;
 import org.ecommerce.productservice.domain.entities.products.Product;

@@ -1,7 +1,7 @@
-package org.ecommerce.productservice.domain.ports;
+package org.ecommerce.productservice.domain.services;
 
 import lombok.RequiredArgsConstructor;
-import org.ecommerce.productservice.domain.events.products.ProductCreated;
+import org.ecommerce.productservice.domain.events.ProductCreated;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.event.TransactionPhase;
