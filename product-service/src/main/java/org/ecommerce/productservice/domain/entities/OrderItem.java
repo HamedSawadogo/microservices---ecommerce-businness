@@ -2,6 +2,7 @@ package org.ecommerce.productservice.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.ecommerce.productservice.domain.aggregates.Product;
 
 @Entity
 @AllArgsConstructor

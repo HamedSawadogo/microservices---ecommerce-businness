@@ -1,7 +1,10 @@
-package org.ecommerce.productservice.domain.entities;
+package org.ecommerce.productservice.domain.aggregates;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.ecommerce.productservice.domain.entities.Category;
+import org.ecommerce.productservice.domain.entities.Image;
+import org.ecommerce.productservice.domain.entities.Tag;
 import org.ecommerce.productservice.domain.exceptions.BussinessException;
 import org.ecommerce.productservice.domain.enums.ProductStatus;
 import java.math.BigDecimal;

@@ -4,6 +4,7 @@ package org.ecommerce.productservice.domain.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.ecommerce.productservice.domain.aggregates.Product;
 
 import java.util.ArrayList;
 import java.util.List;

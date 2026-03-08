@@ -1,7 +1,7 @@
 package org.ecommerce.productservice.application.commands;
 
 import lombok.RequiredArgsConstructor;
-import org.ecommerce.productservice.domain.entities.Product;
+import org.ecommerce.productservice.domain.aggregates.Product;
 import org.ecommerce.productservice.domain.events.ProductCreated;
 import org.ecommerce.productservice.domain.ports.ProductRepository;
 import org.springframework.context.ApplicationEventPublisher;
