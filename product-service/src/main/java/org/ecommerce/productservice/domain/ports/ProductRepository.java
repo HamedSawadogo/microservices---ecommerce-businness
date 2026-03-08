@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.domain.repositories;
+package org.ecommerce.productservice.domain.ports;
 
 import jakarta.persistence.LockModeType;
 import org.ecommerce.productservice.domain.entities.products.Product;

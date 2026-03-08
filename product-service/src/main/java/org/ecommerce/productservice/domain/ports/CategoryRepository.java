@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.domain.repositories;
+package org.ecommerce.productservice.domain.ports;
 
 import org.ecommerce.productservice.domain.entities.products.Category;
 import org.springframework.data.jpa.repository.JpaRepository;

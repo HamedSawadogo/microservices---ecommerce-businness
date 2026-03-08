@@ -14,9 +14,13 @@ import java.util.Set;
 @AllArgsConstructor
 @Getter
 @ToString(exclude = {"images", "tags", "category"})
+@Table(indexes = {@Index(name = "idx_name", columnList = "name")})
 public class Product {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "produt_seq")
+    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq")
     private Long id;
+
     private String name;
     private BigDecimal price;
     private Integer availableQuantity = 0;

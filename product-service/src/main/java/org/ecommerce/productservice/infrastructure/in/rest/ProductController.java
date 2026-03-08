@@ -2,8 +2,8 @@ package org.ecommerce.productservice.infrastructure.in.rest;
 
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.application.commands.products.ProductService;
-import org.ecommerce.productservice.domain.repositories.ProductRepository;
 import org.ecommerce.productservice.domain.entities.products.Product;
+import org.ecommerce.productservice.domain.ports.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +18,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping()
-    public Product createProduct(@RequestBody Product product) {
+    public Product createProduct(@RequestBody Product product) throws Exception {
         return productService.create(product);
     }
 
