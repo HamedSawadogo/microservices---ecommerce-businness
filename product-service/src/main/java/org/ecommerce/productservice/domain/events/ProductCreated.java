@@ -1,7 +1,7 @@
 package org.ecommerce.productservice.domain.events;
 
 import lombok.Getter;
-import org.ecommerce.productservice.domain.entities.products.Product;
+import org.ecommerce.productservice.domain.entities.Product;
 import org.springframework.context.ApplicationEvent;
 
 @Getter

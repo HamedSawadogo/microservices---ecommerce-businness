@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.domain.entities.products;
+package org.ecommerce.productservice.domain.entities;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

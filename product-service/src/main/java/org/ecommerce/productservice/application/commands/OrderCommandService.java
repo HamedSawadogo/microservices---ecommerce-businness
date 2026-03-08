@@ -1,11 +1,11 @@
-package org.ecommerce.productservice.application.commands.orders;
+package org.ecommerce.productservice.application.commands;
 
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.application.queries.OrderResponse;
 import org.ecommerce.productservice.domain.exceptions.BussinessException;
-import org.ecommerce.productservice.domain.entities.orders.Order;
-import org.ecommerce.productservice.domain.entities.orders.OrderItem;
-import org.ecommerce.productservice.domain.entities.products.Product;
+import org.ecommerce.productservice.domain.entities.Order;
+import org.ecommerce.productservice.domain.entities.OrderItem;
+import org.ecommerce.productservice.domain.entities.Product;
 import org.ecommerce.productservice.domain.ports.OrderRepository;
 import org.ecommerce.productservice.domain.ports.ProductRepository;
 import org.springframework.stereotype.Service;

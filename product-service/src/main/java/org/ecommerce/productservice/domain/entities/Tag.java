@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.domain.entities.products;
+package org.ecommerce.productservice.domain.entities;
 
 
 import jakarta.persistence.Entity;

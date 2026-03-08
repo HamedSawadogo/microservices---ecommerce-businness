@@ -1,7 +1,7 @@
 package org.ecommerce.productservice.domain.ports;
 
 import jakarta.persistence.LockModeType;
-import org.ecommerce.productservice.domain.entities.products.Product;
+import org.ecommerce.productservice.domain.entities.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

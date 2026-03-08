@@ -1,8 +1,7 @@
-package org.ecommerce.productservice.domain.entities.orders;
+package org.ecommerce.productservice.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.ecommerce.productservice.domain.entities.products.Product;
 
 @Entity
 @AllArgsConstructor

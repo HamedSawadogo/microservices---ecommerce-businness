@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.domain.entities.orders;
+package org.ecommerce.productservice.domain.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
