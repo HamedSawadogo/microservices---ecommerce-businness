@@ -2,11 +2,15 @@ package org.ecommerce.productservice.domain.ports;
 
 import jakarta.persistence.LockModeType;
 import org.ecommerce.productservice.domain.aggregates.Product;
+import org.ecommerce.productservice.domain.enums.ProductStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,4 +24,18 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select p from Product p where p.id=:id")
     Optional<Product> findOneForUpdate(Long id);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("UPDATE Product p set p.status=:status where p.id=:id")
+    void updateStatus(@Param("id") Long id, @Param("status") ProductStatus status);
+
+    @Query("""
+        select p 
+        from Product p 
+        left join fetch p.category 
+        left join fetch p.tags 
+        left join fetch p.images 
+        where p.name like concat('%', :name, '%')
+        """)
+    List<Product> searchByName(String name);
 }

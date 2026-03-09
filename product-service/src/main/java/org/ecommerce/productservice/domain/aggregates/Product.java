@@ -10,12 +10,14 @@ import org.ecommerce.productservice.domain.enums.ProductStatus;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @NoArgsConstructor()
 @AllArgsConstructor
 @Getter
+@Setter
 @ToString(exclude = {"images", "tags", "category"})
 @Table(indexes = {@Index(name = "idx_name", columnList = "name")})
 public class Product {
@@ -51,13 +53,28 @@ public class Product {
     public boolean isAvailableStock() {
         return this.availableQuantity > 0;
     }
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     private Set<Tag> tags = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Image> images = new HashSet<>();
+
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    private Category category;
+//
+//    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+//    private Set<Tag> tags = new HashSet<>();
+//
+//    @OneToMany(fetch = FetchType.LAZY)
+//    private Set<Image> images = new HashSet<>();
+
+    public void updataStatus(ProductStatus status) {
+        if (Objects.equals(this.status, status)) {
+            return;
+        }
+        this.status = status;
+    }
 }
