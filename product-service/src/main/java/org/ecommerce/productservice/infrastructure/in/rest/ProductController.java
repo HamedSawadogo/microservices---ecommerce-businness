@@ -1,7 +1,10 @@
 package org.ecommerce.productservice.infrastructure.in.rest;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.application.commands.ProductCommandService;
+import org.ecommerce.productservice.application.queries.GetProductPreview;
 import org.ecommerce.productservice.application.queries.ProductQueryService;
 import org.ecommerce.productservice.domain.aggregates.Product;
 import org.ecommerce.productservice.domain.enums.ProductStatus;
@@ -13,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,15 +25,24 @@ public class ProductController {
     private final ProductCommandService productService;
     private final ProductQueryService productQueryService;
 
+    @PersistenceContext
+    private final EntityManager entityManager;
+
+    @PostMapping("/all")
+    @Transactional
+    public void saveAll() {
+
+    }
+
     @PostMapping()
-    public Product createProduct(@RequestBody Product product) throws Exception {
+    public Product createProduct(@RequestBody Product product) {
         return productService.create(product);
     }
 
     @GetMapping("/{id}")
     @Transactional(readOnly = true)
-    public Product findById(@PathVariable Long id) {
-        return productRepository.findById(id).orElseThrow();
+    public GetProductPreview findById(@PathVariable Long id) {
+        return productQueryService.getProduct(id);
     }
 
     @GetMapping()

@@ -53,28 +53,31 @@ public class Product {
     public boolean isAvailableStock() {
         return this.availableQuantity > 0;
     }
-    @ManyToOne(fetch = FetchType.EAGER)
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private Category category;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     private Set<Tag> tags = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private Set<Image> images = new HashSet<>();
-
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    private Category category;
-//
-//    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
-//    private Set<Tag> tags = new HashSet<>();
-//
-//    @OneToMany(fetch = FetchType.LAZY)
-//    private Set<Image> images = new HashSet<>();
 
     public void updataStatus(ProductStatus status) {
         if (Objects.equals(this.status, status)) {
             return;
         }
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Product product)) return false;
+        return Objects.equals(name, product.name) && Objects.equals(category, product.category) && Objects.equals(tags, product.tags) && Objects.equals(images, product.images);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, category, tags, images);
     }
 }

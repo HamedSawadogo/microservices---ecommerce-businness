@@ -1,16 +1,13 @@
 package org.ecommerce.productservice.domain.ports;
 
 import jakarta.persistence.LockModeType;
+import org.ecommerce.productservice.application.queries.GetProductPreview;
 import org.ecommerce.productservice.domain.aggregates.Product;
 import org.ecommerce.productservice.domain.enums.ProductStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Lock;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +15,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select p.id from Product p")
     Page<Long> fetchProductsIdsPageable(Pageable pageable);
 
-    @Query("SELECT p FROM Product p LEFT JOIN FETCH p.category LEFT JOIN fetch p.tags LEFT JOIN FETCH p.images WHERE p.id IN(:ids)")
+    @Query("select p.id as id , p.name as name, p.price as price  from Product  p where p.id=:id")
+    Optional<GetProductPreview> findOne(Long id);
+
+    @Query("SELECT p FROM Product p WHERE p.id IN(:ids)")
+    @EntityGraph(attributePaths = {"images", "tags", "category"})
     List<Product> findAll(List<Long> ids);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
@@ -32,10 +33,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("""
         select p 
         from Product p 
-        left join fetch p.category 
-        left join fetch p.tags 
-        left join fetch p.images 
-        where p.name like concat('%', :name, '%')
-        """)
+        where lower(p.name) like concat('%', :name, '%')
+    """)
+    @EntityGraph(attributePaths = {"images", "tags", "category"})
     List<Product> searchByName(String name);
 }

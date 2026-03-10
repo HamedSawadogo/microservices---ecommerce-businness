@@ -17,8 +17,13 @@ public class ProductQueryService {
 
     @Transactional(readOnly = true)
     public Page<Product> searchProduct(String name) {
-        List<Product> products = productRepository.searchByName(name);
-        System.err.println("product  "  + products.size());
+        List<Product> products = productRepository.searchByName(name.toLowerCase());
         return new PageImpl<>(products);
+    }
+
+    @Transactional
+    public GetProductPreview getProduct(Long id) {
+        var  product = productRepository.findOne(id).orElseThrow();
+        return product;
     }
 }
