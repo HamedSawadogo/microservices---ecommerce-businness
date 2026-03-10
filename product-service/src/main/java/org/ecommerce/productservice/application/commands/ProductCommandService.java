@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.domain.aggregates.Product;
 import org.ecommerce.productservice.domain.enums.ProductStatus;
 import org.ecommerce.productservice.domain.events.ProductCreated;
-import org.ecommerce.productservice.domain.ports.CategoryRepository;
 import org.ecommerce.productservice.domain.ports.ProductRepository;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class ProductCommandService {
   private final ProductRepository productRepository;
-  private final CategoryRepository categoryRepository;
   private final ApplicationEventPublisher applicationEventPublisher;
 
     @Transactional(rollbackFor = Exception.class)

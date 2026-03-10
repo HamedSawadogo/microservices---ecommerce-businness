@@ -37,4 +37,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     """)
     @EntityGraph(attributePaths = {"images", "tags", "category"})
     List<Product> searchByName(String name);
+
+    default Product findByIdOrElseThrow(Long id) {
+        return findById(id).orElseThrow(() -> new IllegalArgumentException("Product with id " + id + " not found"));
+    }
 }
