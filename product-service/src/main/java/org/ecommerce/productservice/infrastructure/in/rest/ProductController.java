@@ -1,16 +1,12 @@
 package org.ecommerce.productservice.infrastructure.in.rest;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.application.commands.ProductCommandService;
 import org.ecommerce.productservice.application.queries.GetProductPreview;
 import org.ecommerce.productservice.application.queries.ProductQueryService;
 import org.ecommerce.productservice.domain.aggregates.Product;
 import org.ecommerce.productservice.domain.enums.ProductStatus;
-import org.ecommerce.productservice.domain.ports.ProductRepository;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,12 +17,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/products")
 public class ProductController {
-    private final ProductRepository productRepository;
     private final ProductCommandService productService;
     private final ProductQueryService productQueryService;
-
-    @PersistenceContext
-    private final EntityManager entityManager;
 
     @PostMapping("/all")
     @Transactional
@@ -47,11 +39,8 @@ public class ProductController {
 
     @GetMapping()
     @Transactional(readOnly = true)
-    public Page<Product> findAllWithTagsAndCategory(Pageable pageable) {
-        var result = productRepository.fetchProductsIdsPageable(pageable);
-        var ids = result.getContent();
-        var products = productRepository.findAll(ids);
-        return new PageImpl<>(products, pageable, result.getTotalElements());
+    public Page<Product> findAll(Pageable pageable) {
+       return productQueryService.findAll(pageable);
     }
 
     @PutMapping("/{id}")

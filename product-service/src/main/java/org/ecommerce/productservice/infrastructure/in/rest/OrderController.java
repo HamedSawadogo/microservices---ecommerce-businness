@@ -14,7 +14,7 @@ public class OrderController {
   private final OrderCommandService orderService;
 
   @PostMapping()
-  public ResponseEntity<?> addItem(@RequestBody CreateOrderItemRequest request) {
+  public ResponseEntity<?> addItem(@RequestBody CreateOrderItemRequest request) throws InterruptedException {
       var created = orderService.addOrderItem(request);
       return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }

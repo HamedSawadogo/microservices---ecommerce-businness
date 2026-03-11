@@ -22,6 +22,9 @@ public class Order {
     private LocalDateTime createdAt;
     private Long createdByUserId;
 
+    @Version
+    private int version;
+
     @JsonIgnoreProperties(value = {"order"}, allowSetters = true)
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<OrderItem> items;
