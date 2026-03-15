@@ -25,9 +25,9 @@ public class ProductCommandService {
 
     @Transactional
     public ProductStatus  updateStatus(Long id, ProductStatus status) {
-        productRepository.updateStatus(id, status);
-        return status;
+        var product = productRepository.findById(id).orElseThrow();
+        product.updataStatus(status);
+        productRepository.save(product);
+        return product.getStatus();
     }
-
-
 }
