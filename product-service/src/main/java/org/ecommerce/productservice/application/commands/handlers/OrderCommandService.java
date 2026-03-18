@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
+
 @Service
 @RequiredArgsConstructor
 public class OrderCommandService {
@@ -49,7 +50,7 @@ public class OrderCommandService {
         Order order = orderRepository.findActiveOrderById(orderId).orElseThrow();
         Money totalPrice = order.calculateOrderTotalPrice();
         if (totalPrice.isGreaterThan(paymentRequest.getAmount())) {
-            throw new BussinessException("Insufficent Amount");
+            throw new BussinessException("Inssufficent funds");
         }
         order.setOrderStatus(OrderStatus.ORDERED_SUCCESS_FULLY);
         paymentCommandService.payOrder(paymentRequest);

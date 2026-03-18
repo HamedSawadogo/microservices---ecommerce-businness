@@ -1,7 +1,9 @@
 package org.ecommerce.productservice.domain.ports;
 
-import org.ecommerce.productservice.domain.entities.Tag;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TagRepository extends JpaRepository<Tag, Long> {
+import org.ecommerce.productservice.domain.entities.Tag;
+import java.util.Optional;
+
+public interface TagRepository  {
+    Optional<Tag> findById(long l);
 }
