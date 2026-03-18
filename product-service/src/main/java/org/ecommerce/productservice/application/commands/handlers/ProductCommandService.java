@@ -1,4 +1,4 @@
-package org.ecommerce.productservice.application.commands;
+package org.ecommerce.productservice.application.commands.handlers;
 
 import lombok.RequiredArgsConstructor;
 import org.ecommerce.productservice.domain.aggregates.Product;
@@ -15,7 +15,7 @@ public class ProductCommandService {
   private final ProductRepository productRepository;
   private final ApplicationEventPublisher applicationEventPublisher;
 
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional
     public Product create(Product product) {
         Product created  = new Product(product.getName(), product.getPrice(), product.getDescription());
         applicationEventPublisher.publishEvent(new ProductCreated(this, created));

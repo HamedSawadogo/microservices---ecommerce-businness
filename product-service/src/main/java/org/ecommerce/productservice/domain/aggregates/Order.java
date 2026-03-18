@@ -1,9 +1,11 @@
-package org.ecommerce.productservice.domain.entities;
+package org.ecommerce.productservice.domain.aggregates;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.ecommerce.productservice.domain.entities.OrderItem;
 import org.ecommerce.productservice.domain.enums.OrderStatus;
+import org.ecommerce.productservice.domain.valueobjects.Money;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,6 +38,10 @@ public class Order {
         order.setItems(items);
         order.setCreatedAt(LocalDateTime.now());
         return order;
+    }
+
+    public Money calculateOrderTotalPrice() {
+        return items.stream().map(OrderItem::calculateItemPrice).reduce(Money.zero(), Money::add);
     }
 
     public void addItem(OrderItem item) {

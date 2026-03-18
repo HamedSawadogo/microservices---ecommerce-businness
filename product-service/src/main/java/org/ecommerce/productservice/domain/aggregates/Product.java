@@ -9,11 +9,10 @@ import org.ecommerce.productservice.domain.events.Event;
 import org.ecommerce.productservice.domain.events.ProductStatusUpdated;
 import org.ecommerce.productservice.domain.exceptions.BussinessException;
 import org.ecommerce.productservice.domain.enums.ProductStatus;
+import org.ecommerce.productservice.domain.valueobjects.Money;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -24,7 +23,6 @@ import java.util.*;
 @Setter
 @ToString(exclude = {"images", "category", "tags"})
 @Table(indexes = {@Index(name = "idx_name", columnList = "name")})
-//@SQLDelete(sql = "UPDATE ${#entityName} SET is_deleted = true WHERE id = ?")
 @SQLRestriction("is_deleted = false")
 public class Product {
     @Id
@@ -33,8 +31,12 @@ public class Product {
     private Long id;
 
     private String name;
-    private BigDecimal price;
+
+    @Embedded
+    private Money price;
+
     private Integer availableQuantity = 0;
+
     private String description;
 
     @Transient
@@ -62,7 +64,7 @@ public class Product {
     )
     private Set<Tag> tags = new HashSet<>();
 
-    public Product(String name, BigDecimal price, String description) {
+    public Product(String name, Money price, String description) {
         this.name = name;
         this.price = price;
         this.description = description;
@@ -90,7 +92,6 @@ public class Product {
     public boolean isAvailableStock() {
         return this.availableQuantity > 0;
     }
-
 
     public void updataStatus(ProductStatus status) {
         if (Objects.equals(this.status, status)) {

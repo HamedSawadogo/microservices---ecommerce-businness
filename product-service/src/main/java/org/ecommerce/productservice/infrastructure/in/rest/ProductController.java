@@ -1,7 +1,7 @@
 package org.ecommerce.productservice.infrastructure.in.rest;
 
 import lombok.RequiredArgsConstructor;
-import org.ecommerce.productservice.application.commands.ProductCommandService;
+import org.ecommerce.productservice.application.commands.handlers.ProductCommandService;
 import org.ecommerce.productservice.application.queries.GetProductPreview;
 import org.ecommerce.productservice.application.queries.ProductQueryService;
 import org.ecommerce.productservice.domain.aggregates.Product;
