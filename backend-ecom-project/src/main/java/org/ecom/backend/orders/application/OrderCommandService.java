@@ -1,17 +1,15 @@
 package org.ecom.backend.orders.application;
 
 import lombok.RequiredArgsConstructor;
-import org.ecom.backend.comons.ResourceCreatedId;
-import org.ecom.backend.payments.application.PaymentCommandService;
+import org.ecom.backend.shared.ResourceCreatedId;
 import org.ecom.backend.payments.application.PaymentRequest;
 import org.ecom.backend.orders.domain.Order;
-import org.ecom.backend.domain.aggregates.Product;
 import org.ecom.backend.orders.domain.OrderItem;
 import org.ecom.backend.products.domain.OrderStatus;
-import org.ecom.backend.comons.exceptions.BussinessException;
-import org.ecom.backend.orders.domain.OrderRepository;
+import org.ecom.backend.shared.exceptions.BussinessException;
+import org.ecom.backend.orders.domain.ports.OrderRepository;
 import org.ecom.backend.products.domain.ProductRepository;
-import org.ecom.backend.comons.valueobjects.Money;
+import org.ecom.backend.shared.valueobjects.Money;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -22,7 +20,7 @@ import java.util.List;
 public class OrderCommandService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
-    private final PaymentCommandService paymentCommandService;
+    private final
 
     @Transactional
     public ResourceCreatedId addOrderItem(CreateOrderItemRequest request) {

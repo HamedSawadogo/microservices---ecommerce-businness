@@ -1,6 +1,7 @@
 package org.ecom.backend.products.application;
 
 import lombok.RequiredArgsConstructor;
+import org.ecom.backend.products.domain.Product;
 import org.ecom.backend.products.domain.ProductRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

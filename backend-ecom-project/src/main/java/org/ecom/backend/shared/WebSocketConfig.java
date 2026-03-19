@@ -1,4 +1,4 @@
-package org.ecom.backend.comons;
+package org.ecom.backend.shared;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

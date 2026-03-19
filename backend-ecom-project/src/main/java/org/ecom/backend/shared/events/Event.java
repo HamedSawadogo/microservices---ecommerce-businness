@@ -1,4 +1,4 @@
-package org.ecom.backend.comons.events;
+package org.ecom.backend.shared.events;
 
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;

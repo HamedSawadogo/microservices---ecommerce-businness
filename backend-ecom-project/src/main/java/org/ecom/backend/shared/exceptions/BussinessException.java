@@ -1,4 +1,4 @@
-package org.ecom.backend.comons.exceptions;
+package org.ecom.backend.shared.exceptions;
 
 public class BussinessException extends RuntimeException {
 

@@ -2,9 +2,9 @@ package org.ecom.backend.products.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.ecom.backend.comons.events.Event;
-import org.ecom.backend.comons.exceptions.BussinessException;
-import org.ecom.backend.comons.valueobjects.Money;
+import org.ecom.backend.shared.events.Event;
+import org.ecom.backend.shared.exceptions.BussinessException;
+import org.ecom.backend.shared.valueobjects.Money;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;

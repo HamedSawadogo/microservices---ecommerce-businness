@@ -1,7 +1,7 @@
 package org.ecom.backend.products.domain;
 
 import lombok.Getter;
-import org.ecom.backend.comons.events.Event;
+import org.ecom.backend.shared.events.Event;
 
 @Getter
 public class ProductCreated extends Event {

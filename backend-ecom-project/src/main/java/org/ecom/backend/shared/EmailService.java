@@ -1,4 +1,4 @@
-package org.ecom.backend.comons;
+package org.ecom.backend.shared;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;

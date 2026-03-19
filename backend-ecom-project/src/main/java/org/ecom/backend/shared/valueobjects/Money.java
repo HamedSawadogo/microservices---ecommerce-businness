@@ -1,4 +1,4 @@
-package org.ecom.backend.comons.valueobjects;
+package org.ecom.backend.shared.valueobjects;
 
 import jakarta.persistence.Embeddable;
 

@@ -2,7 +2,7 @@ package org.ecom.backend.orders.infrastructure;
 
 import org.ecom.backend.orders.application.OrderResponse;
 import org.ecom.backend.orders.domain.Order;
-import org.ecom.backend.orders.domain.OrderRepository;
+import org.ecom.backend.orders.domain.ports.OrderRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;

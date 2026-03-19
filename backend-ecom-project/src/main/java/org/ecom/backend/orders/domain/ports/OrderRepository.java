@@ -1,7 +1,7 @@
-package org.ecom.backend.orders.domain;
+package org.ecom.backend.orders.domain.ports;
 
 import org.ecom.backend.orders.application.OrderResponse;
-
+import org.ecom.backend.orders.domain.Order;
 import java.util.List;
 import java.util.Optional;
 

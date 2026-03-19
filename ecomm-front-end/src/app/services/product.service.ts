@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Product, Page, ProductStatus, ProductForm } from "../models/product.model";
+import {Product, Page, ProductStatus, ProductForm, OrderItemRequest} from "../models/product.model";
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
@@ -30,5 +30,9 @@ export class ProductService {
   updateStatus(id: number, status: ProductStatus): Observable<ProductStatus> {
     const params = new HttpParams().set('status', status);
     return this.http.put<ProductStatus>(`${this.BASE}/${id}`, null, { params });
+  }
+
+  orderProduct(req: OrderItemRequest): Observable<any> {
+    return this.http.post<any>(`http://localhost:9090/orders`, req);
   }
 }

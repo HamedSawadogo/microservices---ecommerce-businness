@@ -11,7 +11,7 @@ import {
 } from 'rxjs';
 
 import { ProductService } from '../services/product.service';
-import { Product, Page, ProductStatus, ProductForm } from '../models/product.model';
+import {Product, Page, ProductStatus, ProductForm, OrderItemRequest} from '../models/product.model';
 
 type SortField = 'id' | 'name' | 'price' | 'availableQuantity' | 'status';
 type FilterStatus = 'ALL' | ProductStatus;
@@ -28,6 +28,7 @@ interface Toast { message: string; type: 'success' | 'error'; id: number }
   providers: [ProductService],
 })
 export class ProductsComponent implements OnInit, OnDestroy {
+
   private readonly svc = inject(ProductService);
   private readonly destroy$ = new Subject<void>();
   private readonly search$ = new Subject<string>();
@@ -97,6 +98,19 @@ export class ProductsComponent implements OnInit, OnDestroy {
       }),
       takeUntil(this.destroy$)
     ).subscribe(p => this.applyPage(p));
+  }
+
+
+  onOrder(product: Product) {
+    const req: OrderItemRequest = {
+      productId: product.id,
+      quantity: 1
+    }
+    this.svc.orderProduct(req).subscribe({
+      next: (val) => {
+        console.log("value: " + val);
+      }
+    })
   }
 
   ngOnDestroy(): void {

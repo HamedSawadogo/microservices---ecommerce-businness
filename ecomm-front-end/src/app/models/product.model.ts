@@ -12,6 +12,11 @@ export interface Product {
   tags?: { id: number; name: string }[];
 }
 
+export interface OrderItemRequest {
+  productId: number;
+  quantity: number;
+}
+
 export interface Page<T> {
   content: T[];
   totalElements: number;
