@@ -22,17 +22,20 @@ public class MakeOrderPaymentUseCase {
 
     @Transactional
     public Payment execute(OrderPaymentRequest paymentRequest) {
-       var payment = paymentRepository.findByIdempotencyKey(paymentRequest.idemPotencyKey());
-       if (payment.isPresent()) {
-          return payment.get();
-       }
+       return paymentRepository.findByIdempotencyKey(paymentRequest.idemPotencyKey())
+               .orElseGet(() -> processPayment(paymentRequest));
+    }
 
-       Order order = orderRepository.findActiveOrderById(paymentRequest.orderId()).orElseThrow();
-       if (order.getOrderStatus() != OrderStatus.PENDING_FOR_PAYMENTS) {
-         throw new BussinessException("Order should be in Pending for Payments");
-       }
-       Payment  newPayment = new Payment(order, paymentRequest.amount(), paymentRequest.paymentMethod());
-       eventPublisher.publishEvent(new PaymentProcessed(this));
-       return paymentRepository.save(newPayment);
+    public Payment processPayment(OrderPaymentRequest paymentRequest) {
+        Order order = orderRepository.findActiveOrderById(paymentRequest.orderId());
+        if (order.getOrderStatus() != OrderStatus.PENDING_FOR_PAYMENTS) {
+            throw new BussinessException(
+                    "Order %d cannot be Paid. Current Status %s"
+                    .formatted(paymentRequest.orderId(), order.getOrderStatus())
+            );
+        }
+        Payment  newPayment = new Payment(order, paymentRequest.amount(), paymentRequest.paymentMethod());
+        eventPublisher.publishEvent(new PaymentProcessed(this));
+        return paymentRepository.save(newPayment);
     }
 }
