@@ -6,6 +6,7 @@ import org.ecom.backend.products.domain.OrderStatus;
 import org.ecom.backend.shared.valueobjects.Money;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -36,5 +37,11 @@ public class Order {
         }
         item.setOrder(this);
         this.items.add(item);
+    }
+
+    public void changeSatus(OrderStatus orderStatus) {
+        if (!Objects.equals(orderStatus, this.orderStatus)) {
+           this.orderStatus = orderStatus;
+        }
     }
 }

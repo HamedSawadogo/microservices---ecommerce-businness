@@ -7,7 +7,7 @@ public record OrderPaymentRequest (
         Money amount,
         PaymentMethod paymentMethod,
         String idemPotencyKey,
-        String orderId
+        Long orderId
 ) implements PaymentRequest {
 
 }

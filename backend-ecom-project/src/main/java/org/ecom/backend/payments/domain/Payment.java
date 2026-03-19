@@ -12,13 +12,12 @@ public class Payment {
     private Instant payAt;
     private final Money amount;
     private PaymentStatus status;
-    private final Long userId;
+    private Long userId;
     private final PaymentMethod paymentMethod;
 
-    public Payment(Order order,  Money amount, Long userId, PaymentMethod paymentMethod) {
+    public Payment(Order order,  Money amount, PaymentMethod paymentMethod) {
         this.order = order;;
         this.amount = amount;
-        this.userId = userId;
         this.status = PaymentStatus.PENDING;
         this.paymentMethod = paymentMethod;
     }
