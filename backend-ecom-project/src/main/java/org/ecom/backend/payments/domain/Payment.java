@@ -1,24 +1,38 @@
 package org.ecom.backend.payments.domain;
 
 import lombok.Getter;
-import org.ecom.backend.orders.domain.Order;
 import org.ecom.backend.shared.valueobjects.Money;
 import java.time.Instant;
 
-@Getter
-public class Payment {
-    private Long id;
-    private final Order order;
-    private Instant payAt;
-    private final Money amount;
-    private PaymentStatus status;
-    private Long userId;
-    private final PaymentMethod paymentMethod;
+import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-    public Payment(Order order,  Money amount, PaymentMethod paymentMethod) {
-        this.order = order;;
+@Setter
+@Getter
+@Entity
+@NoArgsConstructor
+public class Payment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pay_seq")
+    @SequenceGenerator(name = "pay_seq", sequenceName = "pay_seq", allocationSize = 50)
+    private Long id;
+
+    private Long orderId;
+
+    private Instant payAt;
+
+    @Embedded
+    private Money amount;
+
+    private Long userId;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
+    public Payment(Long orderId, Money amount, PaymentMethod paymentMethod) {
+        this.orderId = orderId;
         this.amount = amount;
-        this.status = PaymentStatus.PENDING;
         this.paymentMethod = paymentMethod;
     }
 }

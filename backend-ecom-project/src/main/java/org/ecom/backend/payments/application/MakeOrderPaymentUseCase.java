@@ -2,11 +2,11 @@ package org.ecom.backend.payments.application;
 
 import lombok.RequiredArgsConstructor;
 import org.ecom.backend.orders.domain.Order;
-import org.ecom.backend.orders.domain.ports.OrderRepository;
+import org.ecom.backend.orders.domain.repositories.OrderRepository;
 import org.ecom.backend.payments.domain.Payment;
 import org.ecom.backend.payments.domain.events.PaymentProcessed;
-import org.ecom.backend.payments.domain.ports.PaymentRepository;
-import org.ecom.backend.products.domain.OrderStatus;
+import org.ecom.backend.payments.domain.repositories.PaymentRepository;
+import org.ecom.backend.products.domain.enums.OrderStatus;
 import org.ecom.backend.shared.exceptions.BussinessException;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -34,7 +34,7 @@ public class MakeOrderPaymentUseCase {
                     .formatted(paymentRequest.orderId(), order.getOrderStatus())
             );
         }
-        Payment  newPayment = new Payment(order, paymentRequest.amount(), paymentRequest.paymentMethod());
+        Payment  newPayment = new Payment(order.getId(), paymentRequest.amount(), paymentRequest.paymentMethod());
         eventPublisher.publishEvent(new PaymentProcessed(this));
         return paymentRepository.save(newPayment);
     }
