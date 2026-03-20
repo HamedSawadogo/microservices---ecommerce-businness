@@ -60,7 +60,7 @@ C'est exactement ce que Sam Newman — l'auteur de "Building Microservices" — 
     }
   - 1 useCase = 1 Classe Java
   - Ecriture obligatoire de Tests unitaires et d'intégration
-  - Publiez des evenements pour découpler les services et gagner en performance.
+  - Publiez des evenements pour découpler les services et gagner en performance (utiliser la phase = AFTER_COMMIT au niveau des listeners).
 
 
 ## **Bonnes Pratique coté Optimisation**
