@@ -2,15 +2,13 @@ package org.ecom.backend.orders.application.commands.createoderusecase;
 
 import lombok.RequiredArgsConstructor;
 import org.ecom.backend.orders.application.commands.createoderusecase.dtos.CreateOrderItemRequest;
+import org.ecom.backend.products.domain.entities.Product;
 import org.ecom.backend.shared.ResourceCreatedId;
-import org.ecom.backend.payments.application.PaymentRequest;
 import org.ecom.backend.orders.domain.Order;
 import org.ecom.backend.orders.domain.OrderItem;
-import org.ecom.backend.products.domain.enums.OrderStatus;
 import org.ecom.backend.shared.exceptions.BussinessException;
 import org.ecom.backend.orders.domain.repositories.OrderRepository;
 import org.ecom.backend.products.domain.repositories.ProductRepository;
-import org.ecom.backend.shared.valueobjects.Money;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -31,27 +29,14 @@ public class OrderCommandService {
         }
         List<Order> orders = orderRepository.findByCreatedByUserIdInPending(userId);
         if (orders.isEmpty()) {
-            Order order = Order.create(String.valueOf(userId), List.of(new OrderItem(product, request.quantity())));
+            Order order = Order.create(String.valueOf(userId), List.of(new OrderItem(product.getId(), request.quantity())));
             product.decreaseQuantity(request.quantity());
             Order saved = orderRepository.save(order);
             return new ResourceCreatedId(saved.getId());
         }
         var currentOderInPendingForPayment = orders.get(0);
         product.decreaseQuantity(request.quantity());
-        currentOderInPendingForPayment.addItem(new OrderItem(product, request.quantity()));
+        currentOderInPendingForPayment.addItem(new OrderItem(product.getId(), request.quantity()));
         return new ResourceCreatedId(currentOderInPendingForPayment.getId());
-    }
-
-
-    @Transactional
-    public Order finalizeOrder(Long orderId, PaymentRequest paymentRequest) {
-        Order order = orderRepository.findActiveOrderById(orderId).orElseThrow();
-        Money totalPrice = order.calculateOrderTotalPrice();
-        if (totalPrice.isGreaterThan(paymentRequest.getAmount())) {
-            throw new BussinessException("Inssufficent funds");
-        }
-        order.setOrderStatus(OrderStatus.ORDERED_SUCCESS_FULLY);
-        paymentCommandService.payOrder(paymentRequest);
-        return order;
     }
 }

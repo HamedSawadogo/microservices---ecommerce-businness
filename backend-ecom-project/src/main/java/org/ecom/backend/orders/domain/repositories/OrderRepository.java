@@ -16,7 +16,7 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     @Query("select o from Order o where o.orderStatus='PENDING_FOR_PAYMENTS' and o.createdByUserId=:userId")
     List<Order> findByCreatedByUserIdInPending(@Param("userId") Long userId);
 
-    @Query("select o  from Order o left join FETCH o.items i LEFT JOIN FETCH i.product  where o.createdByUserId=:userId")
+    @Query("select o  from Order o left join FETCH o.items i where o.createdByUserId=:userId")
     List<OrderResponse> findAllByCreatedByUserId(Long userId);
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)

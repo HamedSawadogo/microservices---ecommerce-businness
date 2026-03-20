@@ -4,8 +4,27 @@
 je prends ce projet comme Une StartUp qui vient de lancer qui n'a pas de clients , pas une grose équipe de dev 
 pas assez de moyens.
  
- Cette architecture est parfaitement découpé et découplé pour faciliter plus tard la migration en Microservices
- 
+ Cette architecture est parfaitement découpé et découplé pour faciliter plus tard la migration en Microservices (Strangler Fig Pattern)
+ Le piège que j'évite :
+
+     ❌ Approche classique — MS dès le départ
+     → Tu découpes selon ce que tu crois être indépendant
+     → En prod tu découvres que Order et Payment
+     se parlent 50 fois par seconde
+     → Tu as une transaction distribuée ingérable
+     → Tu passes 6 mois à implémenter des Sagas
+     pour reproduire ce qu'une transaction SQL
+     faisait en 10ms
+
+    ✅ Mon Approche — Modular Monolith d'abord
+    → Tu observes les vrais patterns en prod
+    → Order et Payment fortement couplés
+    → restent ensemble dans 1 seul MS
+    → Notification totalement indépendant
+    → extrait en MS proprement
+    → Migration basée sur des données réelles
+    pas sur des suppositions
+C'est exactement ce que Sam Newman — l'auteur de "Building Microservices" — recommande dans son livre.
  Modules:
    - Module de Paiement (Payments)
    - Module des Produits (Products)

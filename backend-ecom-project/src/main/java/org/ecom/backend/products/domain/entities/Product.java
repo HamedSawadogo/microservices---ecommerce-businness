@@ -15,7 +15,6 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Entity
-@NoArgsConstructor()
 @AllArgsConstructor
 @Getter
 @Setter
@@ -66,6 +65,11 @@ public class Product {
         this.name = name;
         this.price = price;
         this.description = description;
+        this.createdAt = LocalDate.now();
+        this.status = ProductStatus.DRAFT;
+    }
+
+    public Product() {
         this.createdAt = LocalDate.now();
         this.status = ProductStatus.DRAFT;
     }

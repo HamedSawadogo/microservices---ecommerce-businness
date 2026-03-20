@@ -27,7 +27,7 @@ public class MakeOrderPaymentUseCase {
     }
 
     public Payment processPayment(OrderPaymentRequest paymentRequest) {
-        Order order = orderRepository.findActiveOrderById(paymentRequest.orderId());
+        Order order = orderRepository.findActiveOrderById(paymentRequest.orderId()).orElseThrow();
         if (order.getOrderStatus() != OrderStatus.PENDING_FOR_PAYMENTS) {
             throw new BussinessException(
                     "Order %d cannot be Paid. Current Status %s"
