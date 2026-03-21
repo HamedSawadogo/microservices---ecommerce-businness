@@ -1,0 +1,1 @@
+![Capture d’écran du 2026-03-21 12-47-41.png](../../../Images/Captures%20d%E2%80%99%C3%A9cran/Capture%20d%E2%80%99%C3%A9cran%20du%202026-03-21%2012-47-41.png)
