@@ -25,6 +25,9 @@ public class Payment {
     @Embedded
     private Money amount;
 
+    @Column(name = "idempotency_key")
+    private String idempotencyKey;
+
     private Long userId;
 
     @Enumerated(EnumType.STRING)

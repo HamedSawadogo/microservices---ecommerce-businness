@@ -2,13 +2,14 @@ package org.ecom.backend.shared.valueobjects;
 
 import jakarta.persistence.Embeddable;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
 
 @Embeddable
-public record Money(BigDecimal amount) {
+public record Money(BigDecimal amount) implements Serializable {
 
     private static final int SCALE = 2;
     private static final RoundingMode ROUNDING = RoundingMode.HALF_UP;

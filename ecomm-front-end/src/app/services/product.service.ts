@@ -1,38 +1,38 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import {Product, Page, ProductStatus, ProductForm, OrderItemRequest} from "../models/product.model";
+import { Observable } from 'rxjs';
+import { Product, ProductStatus, GetProductPreview } from '../models/product.model';
 
 @Injectable({ providedIn: 'root' })
 export class ProductService {
-  private readonly http = inject(HttpClient);
-  private readonly BASE = 'http://localhost:9090/api/v1/products';
+  private readonly BASE_URL = 'http://localhost:9090/api/v1/products';
 
-  getAll(page = 0, size = 10): Observable<Page<Product>> {
-    const params = new HttpParams().set('page', page).set('size', size);
-    return this.http.get<Page<Product>>(this.BASE, { params });
+  constructor(private http: HttpClient) {}
+
+  // GET /api/v1/products
+  findAll(): Observable<any> {
+    return this.http.get<any>(this.BASE_URL);
   }
 
-  getById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.BASE}/${id}`);
+  // GET /api/v1/products/{id}
+  findById(id: number): Observable<GetProductPreview> {
+    return this.http.get<GetProductPreview>(`${this.BASE_URL}/${id}`);
   }
 
-  search(name: string, page = 0, size = 10): Observable<Page<Product>> {
-    const params = new HttpParams().set('name', name);
-    return this.http.get<Page<Product>>(`${this.BASE}/search`, { params });
+  // POST /api/v1/products
+  createProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(this.BASE_URL, product);
   }
 
-  create(product: ProductForm): Observable<Product> {
-    return this.http.post<Product>(this.BASE, product);
-  }
-
-  updateStatus(id: number, status: ProductStatus): Observable<ProductStatus> {
+  // PUT /api/v1/products/{id}?status=...
+  changeProductStatus(id: number, status: ProductStatus): Observable<ProductStatus> {
     const params = new HttpParams().set('status', status);
-    return this.http.put<ProductStatus>(`${this.BASE}/${id}`, null, { params });
+    return this.http.put<ProductStatus>(`${this.BASE_URL}/${id}`, null, { params });
   }
 
-  orderProduct(req: OrderItemRequest): Observable<any> {
-    return this.http.post<any>(`http://localhost:9090/orders`, req);
+  // GET /api/v1/products/search?name=...
+  search(name: string): Observable<any> {
+    const params = new HttpParams().set('name', name);
+    return this.http.get<any>(`${this.BASE_URL}/search`, { params });
   }
 }
