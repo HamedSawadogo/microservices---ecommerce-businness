@@ -1,12 +1,11 @@
 package org.ecom.backend.orders.application.queries;
 
 import lombok.RequiredArgsConstructor;
-import org.ecom.backend.orders.application.queries.dtos.OrderResponse;
-import org.ecom.backend.orders.domain.repositories.OrderRepository;
-import org.springframework.http.ResponseEntity;
+import org.ecom.backend.orders.domain.Order;
+import org.ecom.backend.orders.domain.OrderRepository;
+import org.ecom.backend.shared.exceptions.BussinessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
@@ -16,8 +15,12 @@ public class OrderQueryService {
     private final OrderRepository orderRepository;
 
     @Transactional(readOnly = true)
-    public List<OrderResponse> getAll() {
+    public List<Order> getAll() {
         return orderRepository.findAllByCreatedByUserId(1L);
     }
 
+    public Order findActiveOrderById() {
+        var order = orderRepository.findActiveOrderById();
+        return order.orElseThrow(() -> new BussinessException("Not active Order found"));
+    }
 }

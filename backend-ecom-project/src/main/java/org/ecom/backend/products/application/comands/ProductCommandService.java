@@ -3,6 +3,7 @@ package org.ecom.backend.products.application.comands;
 import lombok.RequiredArgsConstructor;
 import org.ecom.backend.products.domain.entities.Product;
 import org.ecom.backend.products.domain.enums.ProductStatus;
+import org.ecom.backend.products.domain.events.ProductCreated;
 import org.ecom.backend.products.domain.events.ProductStatusUpdated;
 import org.ecom.backend.products.domain.repositories.ProductRepository;
 import org.springframework.context.ApplicationEventPublisher;
@@ -24,7 +25,10 @@ public class ProductCommandService {
   }
 
 
+  @Transactional
   public Product create(Product product) {
-     return  productRepository.save(product);
+     var productSaved  =   productRepository.save(product);
+     applicationEventPublisher.publishEvent(new ProductCreated(this, product));
+     return productSaved;
   }
 }

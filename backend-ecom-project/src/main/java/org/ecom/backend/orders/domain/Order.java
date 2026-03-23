@@ -19,16 +19,21 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Embedded
+    private OrderNumber orderNumber;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
+
     private LocalDateTime createdAt;
+
     private Long createdByUserId;
 
     @Version
     private int version;
 
     @JsonIgnoreProperties(value = {"order"}, allowSetters = true)
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<OrderItem> items;
 
     public static Order create(String userId,  List<OrderItem> items) {

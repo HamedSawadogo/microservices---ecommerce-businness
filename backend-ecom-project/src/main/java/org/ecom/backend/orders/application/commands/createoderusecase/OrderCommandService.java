@@ -7,10 +7,12 @@ import org.ecom.backend.shared.ResourceCreatedId;
 import org.ecom.backend.orders.domain.Order;
 import org.ecom.backend.orders.domain.OrderItem;
 import org.ecom.backend.shared.exceptions.BussinessException;
-import org.ecom.backend.orders.domain.repositories.OrderRepository;
+import org.ecom.backend.orders.domain.OrderRepository;
 import org.ecom.backend.products.domain.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -29,7 +31,7 @@ public class OrderCommandService {
         }
         List<Order> orders = orderRepository.findByCreatedByUserIdInPending(userId);
         if (orders.isEmpty()) {
-            Order order = Order.create(String.valueOf(userId), List.of(new OrderItem(product.getId(), request.quantity())));
+            Order order = Order.create(String.valueOf(userId), new ArrayList<>(List.of(new OrderItem(product.getId(), request.quantity()))));
             product.decreaseQuantity(request.quantity());
             Order saved = orderRepository.save(order);
             return new ResourceCreatedId(saved.getId());

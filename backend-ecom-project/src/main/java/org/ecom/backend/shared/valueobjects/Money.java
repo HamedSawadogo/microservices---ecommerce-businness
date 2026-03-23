@@ -1,6 +1,7 @@
 package org.ecom.backend.shared.valueobjects;
 
 import jakarta.persistence.Embeddable;
+import org.jspecify.annotations.NonNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -54,11 +55,20 @@ public record Money(BigDecimal amount) implements Serializable {
         return this.amount.compareTo(other.amount) > 0;
     }
 
+    @Override
+    public @NonNull String toString() {
+        return this.amount.toString();
+    }
+
     public boolean isZero() {
         return this.amount.compareTo(BigDecimal.ZERO) == 0;
     }
 
     private void requireSame(Money other) {
         Objects.requireNonNull(other, "Money to compare cannot be null");
+    }
+
+    public boolean isEquals(Money amount) {
+        return this.amount.compareTo(amount.amount()) == 0;
     }
 }
