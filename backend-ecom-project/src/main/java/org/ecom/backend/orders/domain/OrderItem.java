@@ -12,13 +12,19 @@ public class OrderItem{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long productId;
+
     private Integer quantity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private OrderProduct product;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Order order;
 
-    public OrderItem(Long productId, Integer quantity) {
-        this.productId = productId;
+    public OrderItem(OrderProduct product, Integer quantity) {
+        this.product = product;
         this.quantity = quantity;
     }
+
+
 }

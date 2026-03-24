@@ -40,9 +40,9 @@ public class MakeOrderPaymentUseCase {
         }
         Payment payment = paymentRepository.save(new Payment(order.getId(), paymentRequest.amount(), paymentRequest.paymentMethod()));
         var paymentProcessedEvent = new PaymentProcessed(
-         this,
-          order,
-          payment
+       this,
+              order,
+              payment
         );
         eventPublisher.publishEvent(paymentProcessedEvent);
         return payment;

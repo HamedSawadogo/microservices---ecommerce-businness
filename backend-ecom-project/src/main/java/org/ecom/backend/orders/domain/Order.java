@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -36,17 +37,16 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<OrderItem> items;
 
-    public static Order create(String userId,  List<OrderItem> items) {
+    public static Order create( List<OrderItem> items) {
         Order order = new Order();
         order.setOrderStatus(OrderStatus.PENDING_FOR_PAYMENTS);
-        order.setCreatedByUserId(Long.valueOf(userId));
         order.setItems(items);
         order.setCreatedAt(LocalDateTime.now());
         return order;
     }
 
     public Money calculateOrderTotalPrice() {
-       // return items.stream().map(OrderItem::calculateItemPrice).reduce(Money.zero(), Money::add);
+        return items.stream().map(OrderItem::calculateItemPrice).reduce(Money.zero(), Money::add);
         return Money.zero();
     }
 
