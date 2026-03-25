@@ -21,7 +21,7 @@ public class MakeOrderPaymentUseCase {
 
     @Transactional
     public Payment execute(OrderPaymentRequest paymentRequest) {
-       var payment =   paymentRepository.findByIdempotencyKey(paymentRequest.idemPotencyKey());
+       final var payment =   paymentRepository.findByIdempotencyKey(paymentRequest.idemPotencyKey());
        return payment.orElseGet(() -> processPayment(paymentRequest));
     }
 
@@ -38,8 +38,8 @@ public class MakeOrderPaymentUseCase {
         if (!order.calculateOrderTotalPrice().isEquals(paymentRequest.amount())) {
             throw new BussinessException("Invalid Payment amount");
         }
-        Payment payment = paymentRepository.save(new Payment(order.getId(), paymentRequest.amount(), paymentRequest.paymentMethod()));
-        var paymentProcessedEvent = new PaymentProcessed(
+        final Payment payment = paymentRepository.save(new Payment(order.getId(), paymentRequest.amount(), paymentRequest.paymentMethod()));
+        final var paymentProcessedEvent = new PaymentProcessed(
        this,
               order,
               payment

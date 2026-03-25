@@ -32,14 +32,14 @@ public class OrderCommandService {
         }
         var  currentOderInPendingForPayment = orderRepository.findByCreatedByUserIdInPending();
         if (currentOderInPendingForPayment.isEmpty()) {
-            Order order = Order.create(new ArrayList<>(List.of(new OrderItem(product.getId(), request.quantity()))));
+            Order order = Order.create(new ArrayList<>(List.of(new OrderItem(product, request.quantity()))));
             product.decreaseQuantity(request.quantity());
             Order saved = orderRepository.save(order);
             return new ResourceCreatedId(saved.getId());
         }
         var order  = currentOderInPendingForPayment.get();
         product.decreaseQuantity(request.quantity());
-        order.addItem(new OrderItem(product.getId(), request.quantity()));
+        order.addItem(new OrderItem(product, request.quantity()));
         return new ResourceCreatedId(order.getId());
     }
 }
