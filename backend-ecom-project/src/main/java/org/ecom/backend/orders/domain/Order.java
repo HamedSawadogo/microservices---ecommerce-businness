@@ -65,7 +65,7 @@ public class Order {
         }
     }
 
-    public Money calculateOrderTotalPrice() {
+    public final Money calculateOrderTotalPrice() {
         return items.stream().map(OrderItem::calculateItemPrice).reduce(Money.zero(), Money::add);
     }
 

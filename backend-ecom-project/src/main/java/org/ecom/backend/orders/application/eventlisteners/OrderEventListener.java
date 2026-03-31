@@ -22,7 +22,7 @@ public class OrderEventListener {
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onOrderPaid(PaymentProcessed paymentProcessed) {
         Order order = paymentProcessed.getOrder();
-        order.changeSatus(OrderStatus.ORDERED_SUCCESS_FULLY);
+        order.changeStatus(OrderStatus.ORDERED_SUCCESS_FULLY);
         orderRepository.save(order);
     }
 }

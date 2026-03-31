@@ -10,7 +10,6 @@ import org.ecom.backend.shared.valueobjects.Money;
 import org.hibernate.annotations.SQLRestriction;
 import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.data.domain.DomainEvents;
-
 import java.time.LocalDate;
 import java.util.*;
 
@@ -36,8 +35,6 @@ public class Product {
 
     private String description;
 
-    @Transient
-    private List<Event> domainEvents = new ArrayList<>();
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
@@ -61,6 +58,9 @@ public class Product {
     )
     private Set<Tag> tags = new HashSet<>();
 
+    @Transient
+    private List<Event> domainEvents = new ArrayList<>();
+
     public Product(String name, Money price, String description) {
         this.name = name;
         this.price = price;
@@ -83,6 +83,7 @@ public class Product {
     public List<Event> getDomainEvents() {
         return Collections.unmodifiableList(this.domainEvents);
     }
+
 
     public void decreaseQuantity(Integer quantity) {
         if (quantity > this.availableQuantity) {

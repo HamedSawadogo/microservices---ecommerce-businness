@@ -31,7 +31,7 @@ public class OrderItem{
     }
 
 
-    public Money calculateItemPrice() {
+    public final Money calculateItemPrice() {
         return product.getPrice().multiply(BigDecimal.valueOf(quantity));
     }
 }

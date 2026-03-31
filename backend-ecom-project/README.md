@@ -40,24 +40,25 @@ C'est exactement ce que Sam Newman — l'auteur de "Building Microservices" — 
   - Utiliser la ValueObject Money pour tout ce qui s'agit d'argent
   - Utiliser des projections ou des records pour récuperer Uniquement les informations néccessaires
   - 1 Use case = 1 DTO
+  - immutabilité mettre les variables final a final , preferez les records  selon le contexte.
   - Encapsulés les méthodes au sein des classes pas dans les services (Ce qui es le coeur meme de la POO) (exemple: )
   - 
-                public void addItem(OrderItem item) {
-                    if (item == null) {
-                        return;
-                    }
-                    item.setOrder(this);
-                    this.items.add(item);
-                }
-        
-                 public Money calculateOrderTotalPrice() {
-                    return items.stream().map(OrderItem::calculateItemPrice).reduce(Money.zero(), Money::add);
-                }
-                 public void changeSatus(OrderStatus orderStatus) {
-                        if (!Objects.equals(orderStatus, this.orderStatus)) {
-                        this.orderStatus = orderStatus;
-                }
-    }
+      public void addItem(OrderItem item) {
+          if (item == null) {
+              return;
+          }
+          item.setOrder(this);
+          this.items.add(item);
+      }
+
+       public Money calculateOrderTotalPrice() {
+          return items.stream().map(OrderItem::calculateItemPrice).reduce(Money.zero(), Money::add);
+      }
+       public void changeSatus(OrderStatus orderStatus) {
+              if (!Objects.equals(orderStatus, this.orderStatus)) {
+              this.orderStatus = orderStatus;
+      }
+  }
   - 
   - 1 useCase = 1 Classe Java
   - Ecriture obligatoire de Tests unitaires et d'intégration
