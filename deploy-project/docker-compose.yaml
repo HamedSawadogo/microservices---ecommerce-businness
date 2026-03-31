@@ -1,0 +1,64 @@
+version: '3.8'
+services:
+  nginx:
+    image: nginx:latest
+    container_name: ecom-gateway
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - ecom-backend
+    networks:
+      - shop_net
+
+  ecom-backend:
+    build:
+      context: /home/agitex/Documents/learning/spring-ecommerce/backend-ecom-project
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres_db
+      - ecom-redis
+    ports:
+      - "8081:9090"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_db:5432/products-db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: user
+      SPRING_REDIS_HOST: redis
+      SPRING_REDIS_PORT: 6379
+    restart: unless-stopped
+    networks:
+      - shop_net
+
+  postgres_db:
+    image: postgres:16
+    container_name: ecom-products-db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+      POSTGRES_DB: products-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5481:5432"
+    networks:
+      - shop_net
+
+  ecom-redis:
+    image: redis:7-alpine
+    container_name: ecom-redis-db
+    restart: always
+    ports:
+      - "6380:6379"
+    networks:
+      - shop_net
+
+volumes:
+  postgres_data:
+
+networks:
+  shop_net:
+    driver: bridge
